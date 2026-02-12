@@ -133,9 +133,6 @@ def index_repository(
         drop_index(es, settings.es_index)
     ensure_index(es, settings.es_index, settings.embedding_dim)
 
-    if not es.indices.exists(index=settings.es_index):
-        ensure_index(es, settings.es_index, settings.embedding_dim)
-
     start = time.perf_counter()
     stats = IndexStats(repo=repo_name)
 
