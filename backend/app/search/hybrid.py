@@ -1,12 +1,9 @@
-"""Hybrid (BM25 + dense vector) search.
+"""BM25, dense-vector kNN, and rank fusion helpers.
 
-Two implementations are provided:
-
-* ``build_hybrid_body``: uses Elasticsearch's native ``rrf`` retriever
-  (Elasticsearch 8.14+). Requires a Platinum (paid) license.
-* ``rrf_fuse``: pure-Python Reciprocal Rank Fusion that merges the hit lists
-  from two independent searches. Used by the API when the cluster is on the
-  free Basic license (the default for self-hosted ES).
+The live API runs hybrid search as two Elasticsearch queries plus
+``rrf_fuse`` so results stay consistent on single-node / Basic clusters.
+``build_hybrid_body`` is still handy when you have an ES build that exposes
+the native ``rrf`` retriever and want to push fusion down into the cluster.
 """
 
 from __future__ import annotations

@@ -34,7 +34,8 @@ export async function search(
   const r = await fetch(`${API_BASE}/search?${params.toString()}`, { cache: "no-store" });
   if (!r.ok) {
     const text = await r.text();
-    throw new Error(`Search failed (${r.status}): ${text}`);
+    const clipped = text.length > 800 ? `${text.slice(0, 800)}…` : text;
+    throw new Error(`Search failed (${r.status}): ${clipped}`);
   }
   return (await r.json()) as SearchResponse;
 }
@@ -46,6 +47,10 @@ export async function getStats(): Promise<{
   repos?: string[];
 }> {
   const r = await fetch(`${API_BASE}/index/stats`, { cache: "no-store" });
-  if (!r.ok) throw new Error(await r.text());
+  if (!r.ok) {
+    const text = await r.text();
+    const clipped = text.length > 800 ? `${text.slice(0, 800)}…` : text;
+    throw new Error(`Stats request failed (${r.status}): ${clipped}`);
+  }
   return r.json();
 }
