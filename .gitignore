@@ -35,5 +35,6 @@ yarn-error.log*
 samples/
 es-data/
 .cache/
-models/
+# Hugging Face / local weights at repo root only (do not ignore backend/app/models/)
+/models/
 .local/
